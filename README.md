@@ -61,8 +61,17 @@ class MySolver(wordpy.Solver):
         return self.words[:10] # return some next word candidates.
 
 
-words = wordpy.get_words()
-average_attempts, average_wins = wordpy.benchmark(words, MySolver)
+if __name__ == '__main__':
+    words = wordpy.get_words()
+    average_attempts, average_wins = wordpy.benchmark(words, MySolver)
 
-print(f'average {average_attempts} attempts, {average_wins:.0%} wins')
+    print(f'average {average_attempts} attempts, {average_wins:.0%} wins')
 ```
+
+There are 3 solvers in this repository.
+The solvers are defined in [solver.py](./solver.py).
+
+- __wordpy.solver.RandomSolver__: Just choices random word from possible words.
+- __wordpy.solver.MajorLetterSolver__: Tries to use letters that commonly use.
+- __wordpy.solver.MinorLetterSolver__: The opposite of MajorLetterSolver. Uses minor letters.
+- __wordpy.solver.MarkSolver__: Tries to all letters as many as possible to detect what letters used in the answer. (this is most efficient in this repository)
