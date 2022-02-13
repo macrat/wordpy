@@ -11,18 +11,26 @@ def new_game(words: WordTable) -> Game:
     return FixedGame(words, random.choice(words))
 
 
-def benchmark(words: WordTable, cls: Type[Solver], num_tries=100) -> tuple[float, float]:
-    total = 0
-    win = 0
-    for i in range(num_tries):
-        print(f'{cls.__name__} game {i}')
-        solver = cls(new_game(words))
-        result = solver.solve()
-        total += result.num_tried
-        if result.num_tried <= len(words[0]) + 1:
-            win += 1
-        print()
-    return total / num_tries, win / num_tries
+def benchmark(words: WordTable, *solvers: Type[Solver], num_tries=100) -> list[tuple[str, float, float]]:
+    results: list[tuple[str, float, float]] = []
+
+    for cls in solvers:
+        total = 0
+        win = 0
+        for i in range(num_tries):
+            print(f'{cls.__name__} game {i}')
+            solver = cls(new_game(words))
+            result = solver.solve()
+            total += result.num_tried
+            if result.num_tried <= len(words[0]) + 1:
+                win += 1
+            print()
+        results.append((cls.__name__, total / num_tries, win / num_tries))
+
+    for (name, attempts, win_rate) in results:
+        print(f'{name}: {attempts} attempts, {win_rate:.0%} wins')
+
+    return results
 
 
 def solve(words: WordTable, cls: Type[Solver]):

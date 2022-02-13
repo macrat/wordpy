@@ -63,9 +63,7 @@ class MySolver(wordpy.Solver):
 
 if __name__ == '__main__':
     words = wordpy.get_words()
-    average_attempts, average_wins = wordpy.benchmark(words, MySolver)
-
-    print(f'average {average_attempts} attempts, {average_wins:.0%} wins')
+    wordpy.benchmark(words, MySolver)
 ```
 
 There are 3 solvers in this repository.
